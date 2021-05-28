@@ -12,15 +12,17 @@ const PopupDialogComponent = (props:popupComponentRecivePropsType) => {
     const [isAddNew,setIsAddNew]=useState(true)
     const [dialogTitle, setDialogTitle]=useState("")
     const insertTodoHandler=():void=>{
+       
         if(name.trim()==""){
             return alert('please write TodoList name')
         }else{
+
             let properties:todoProperties={
                 id:Math.floor(Date.now()/1000),
                 name:name,
                 createionDate:new Date()
             }
-            insertNewTodoList(properties)
+            insertNewTodoList(properties).then()
             
         }
     }

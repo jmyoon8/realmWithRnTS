@@ -5,9 +5,9 @@ export const TODOLIST_SCHEMA = "TodoList";
 
 export const TodoSchema = {
   name: TODO_SCHEMA,
-  primaryKey: "id",
+  primaryKey: "_id",
   properties: {
-    id: "int", //primary key
+    _id: "int", //primary key
     name: { type: "string", indexed: true },
     done: { type: "bool", defalut: false },
   },
@@ -15,31 +15,36 @@ export const TodoSchema = {
 
 export const TodoListSchema = {
   name: TODOLIST_SCHEMA,
-  primaryKey: "id",
+  primaryKey: "_id",
   properties: {
-    id:'int', //primary key
+    _id:'int', //primary key
     name: "string",
     creationDate: "date",
     todos: { type: "list", objectType: TODO_SCHEMA },
   },
 };
 const databaseOption = {
-  path: "todoListApp.realm",
+  // path: "todoListApp.realm",
   schema: [TodoListSchema, TodoSchema],
-  schemaVersion: 1, //optional
+  // schemaVersion: 2, //optional
+  
 };
 
-export const insertNewTodoList = (newTodoList: any) =>
+export const insertNewTodoList = (newTodoList:any) =>
   new Promise((resolve, reject) => {
     Realm.open(databaseOption)
       .then((realm) => {
-        realm.write(() => {
+        realm.write(()=>{
           realm.create(TODOLIST_SCHEMA, newTodoList);
           resolve(newTodoList);
-        });
+          
+        })
+      
       })
       .catch((err) => reject(err));
   });
+
+
 export const updateTodoList = (todoList: any) =>
   new Promise<void>((resolve, reject) => {
     Realm.open(databaseOption)
@@ -50,11 +55,13 @@ export const updateTodoList = (todoList: any) =>
             todoList.id
           );
           updatingTodoList.name = todoList.name;
+          
           resolve();
         });
       })
       .catch((err) => reject(err));
   });
+  
 //투두 리스트 아이디를 넣으면 델리트
 export const deleteTodoList = (todoListId: any) =>
   new Promise<void>((resolve, reject) => {
@@ -67,6 +74,7 @@ export const deleteTodoList = (todoListId: any) =>
             todoListId
           );
           realm.delete(deletingTodoList);
+          
           resolve();
         });
       })
@@ -86,13 +94,14 @@ export const deleteAllTodoList = () =>
   });
 
 export const queryAllTodoLists = () =>
-  new Promise((resolve, reject) => {
+  new Promise<any[]>((resolve, reject) => {
     Realm.open(databaseOption)
       .then((realm) => {
         // 데이터를 가져올땐 스키마의 name으로 가져온다
-        let allTodoList = realm.objects(TODOLIST_SCHEMA);
-        resolve(allTodoList);
-    
-      })
-      .catch((err) => reject(err));
+        let a =realm.objects(TODOLIST_SCHEMA).toJSON()
+        
+        resolve(a)
+        
+      }).catch((err) => reject(err));
   });
+export default new Realm(databaseOption)

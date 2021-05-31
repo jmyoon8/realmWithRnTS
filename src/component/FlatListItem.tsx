@@ -1,19 +1,18 @@
 import React from 'react'
-import { Alert, StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Swipeout from 'react-native-swipeout'
+import {flatListProps} from '../realm/propertiesInterface'
 
-interface FlatListProps{
-    item?:any,
-    itemIndex?:number,
-    popupDialogComponent?:any,
-    onPressItem?:any
-}
-const FlatListItem = (props:FlatListProps) => {
+const FlatListItem = (props:flatListProps) => {
    
-    const { item:{id,name,createDate},onPressItem,itemIndex ,popupDialogComponent }=props
+  
+    const item=props.item
     
-
-    const showDeleteConfirmation=(id:number):void=>{
+    const onPressItem=props.onPressItem
+    const itemIndex=props.itemIndex
+    
+    const showDeleteConfirmation=(id:number|undefined):void=>{
+        
         Alert.alert(
             'Delete',
             'Delete a todoList',
@@ -31,7 +30,7 @@ const FlatListItem = (props:FlatListProps) => {
         );
     }
     const showEditModal =():void=>{
-
+          
     }
     return (
         <Swipeout 
@@ -40,17 +39,25 @@ const FlatListItem = (props:FlatListProps) => {
                     text:'Edit',
                     backgroundColor:'#5186e7',
                     onPress:showEditModal
-                    
                 },
                 {
                     text:'Delete',
                     backgroundColor:'#d95040',
-                    onPress:()=>showDeleteConfirmation(id)
+                    onPress:()=>showDeleteConfirmation(item?._id)
                 }
             ]}
             autoClose={true}
         >
-
+            <TouchableOpacity onPress={onPressItem} >
+                <View style={{backgroundColor:itemIndex%2==0?'powderblue':'skyblue'}} >
+                    <Text style={{fontWeight:'bold',fontSize:18,margin:10}}>
+                        {item?.name}
+                    </Text>
+                    <Text numberOfLines={2} style={{fontWeight:'bold',fontSize:18,margin:10}}>
+                        {item?.creationDate?.toLocaleDateString()}
+                    </Text>
+                </View>
+            </TouchableOpacity>
         </Swipeout>
     )
 }

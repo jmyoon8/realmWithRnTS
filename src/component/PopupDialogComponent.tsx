@@ -1,39 +1,49 @@
-import React, { useState } from 'react'
+import React, {  memo, useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import PopupDialog, { DialogTitle } from 'react-native-popup-dialog'
 import { insertNewTodoList, TodoListSchema, TodoSchema } from '../realm/allSchemas'
-import {todoProperties} from '../realm/propertiesInterface'
-interface popupComponentRecivePropsType{
-    id?:number,
-}
-const PopupDialogComponent = (props:popupComponentRecivePropsType) => {
-    const [id,setId]=useState(0)
+import {popupComponentRecivePropsType, todoProperties} from '../realm/propertiesInterface'
+
+
+
+const PopupDialogComponent = (props:popupComponentRecivePropsType)=> {
+    
+ 
     const [name,setName]=useState("")
-    const [isAddNew,setIsAddNew]=useState(true)
-    const [dialogTitle, setDialogTitle]=useState("")
+
     const insertTodoHandler=():void=>{
-       
         if(name.trim()==""){
             return alert('please write TodoList name')
         }else{
-
-            let properties:todoProperties={
-                id:Math.floor(Date.now()/1000),
+            let newTodoList:todoProperties={
+                _id:Math.floor(Date.now()/1000),
                 name:name,
-                createionDate:new Date()
+                creationDate:new Date()
             }
-            insertNewTodoList(properties).then()
+            console.log(newTodoList)
             
+            insertNewTodoList(newTodoList).then(res=>{
+                console.log(res)
+                props.isvisible()
+            }).catch(err=>{
+                alert(`error 에러남 ㅡㅡ ${err}`)
+            })
         }
+    }
+    
+    const cancel =()=>{
+        props.isvisible()
     }
     return (
         <PopupDialog
+          
             dialogTitle={
                 <DialogTitle
-                    title={dialogTitle}
-                    style={{width:0.7,height:180}}
+                    title={'Add a new TodoList'}
                 />
             }
+            visible={props.showForAdd}
+            
         >
             <View style={styles.container}>
                 <TextInput style={styles.textInput}
@@ -42,11 +52,16 @@ const PopupDialogComponent = (props:popupComponentRecivePropsType) => {
                     onChangeText={setName}
                     value={name}
                 />
-                <TouchableOpacity style={styles.button} onPress={insertTodoHandler} >
-                    <Text style={styles.textLabel}>
-                        Save
-                    </Text>
-                </TouchableOpacity>
+                <View style={{flexDirection:'row',justifyContent:'space-around'}}>
+                    <TouchableOpacity style={styles.button} onPress={insertTodoHandler} >
+                        <Text style={styles.textLabel}>
+                            Save
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={cancel} > 
+                        <Text style={styles.textLabel} >Cancel</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
 
         </PopupDialog>

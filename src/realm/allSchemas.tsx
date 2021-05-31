@@ -13,6 +13,19 @@ export const TodoSchema = {
   },
 };
 
+// export class TodoListSchema extends Realm.Object{
+//   static schema={
+//     name:TODOLIST_SCHEMA,
+//     primaryKey:'_id',
+//     properties:{
+//       _id:'int',
+//       name:'string',
+//       creationDate:'date',
+//       todos:{type:'list', objectType:TODO_SCHEMA}
+//     }
+//   }
+// }
+
 export const TodoListSchema = {
   name: TODOLIST_SCHEMA,
   primaryKey: "_id",
@@ -24,7 +37,7 @@ export const TodoListSchema = {
   },
 };
 const databaseOption = {
-  // path: "todoListApp.realm",
+  path: "todoListApp.realm",
   schema: [TodoListSchema, TodoSchema],
   // schemaVersion: 2, //optional
   
@@ -93,14 +106,18 @@ export const deleteAllTodoList = () =>
       .catch((err) => reject(err));
   });
 
+
 export const queryAllTodoLists = () =>
-  new Promise<any[]>((resolve, reject) => {
+  new Promise((resolve, reject) => {
     Realm.open(databaseOption)
       .then((realm) => {
         // 데이터를 가져올땐 스키마의 name으로 가져온다
-        let a =realm.objects(TODOLIST_SCHEMA).toJSON()
         
-        resolve(a)
+          // 데이터를 가져올땐 스키마의 name으로 가져온다
+          
+        let data=realm.objects(TODOLIST_SCHEMA)
+        resolve(data)
+        
         
       }).catch((err) => reject(err));
   });

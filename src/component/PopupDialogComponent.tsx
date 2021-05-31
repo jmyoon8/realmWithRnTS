@@ -23,7 +23,7 @@ const PopupDialogComponent = (props:popupComponentRecivePropsType)=> {
             console.log(newTodoList)
             
             insertNewTodoList(newTodoList).then(res=>{
-                console.log(res)
+                console.log(res,"인서트")
                 props.isvisible()
             }).catch(err=>{
                 alert(`error 에러남 ㅡㅡ ${err}`)

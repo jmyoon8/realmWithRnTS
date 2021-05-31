@@ -13,19 +13,20 @@ const TodoListComponent = (props: any) => {
   
   useEffect(() => {
     
-    // reloadTodoList()
+    reloadTodoList()
 
-    // realm.addListener('change',()=>{
-    //   reloadTodoList()
-    // })
-    // return ()=>realm.removeAllListeners()
+    realm.addListener('change',()=>{
+      reloadTodoList()
+    })
+    return ()=>realm.removeAllListeners()
   }, [])
 
   const reloadTodoList=()=>{
     queryAllTodoLists().then((res:any)=>{
       console.log(res)
-      setTodoList(res)
+      // setTodoList(res)
     }).catch(err=>{
+      console.log(`불러오기 실패 ${err}`)
       setTodoList([])
     })
   }

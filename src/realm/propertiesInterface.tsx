@@ -1,32 +1,38 @@
 
 
 //realm properties interfacez
-export interface todoProperties{
+
+export interface todosProps{
     _id?:number,
     name?:string,
-    creationDate?:Date
+    done?:boolean
+    
+}
+export interface todoListProperties{
+    _id:number|any,
+    name?:string,
+    creationDate?:Date,
+    todos?:todosProps[]|any
 }
 
 //compoenet props interface
 export interface headerComponentProps{
-    title?:string,
     isvisible?:any,
-    sortState?:any,
-    hasDeleteAllButton?:any,
-    ref?:any
-    
+    title?:string,
+    todoList?:any,
+    setTodoList?:any
 }
 
 export interface popupComponentRecivePropsType{
     id?:number,
-    ref?:any,
     isvisible?:any,
-    showForAdd:boolean
+    showForAdd?:boolean,
+    whatinsert?:string
 }
 
 export interface flatListProps{
-    item?:{_id:number, name:string, creationDate:Date},
+    item?:todoListProperties,
     itemIndex?:any,
     popupDialogComponent?:any,
-    onPressItem?:any
+    onPressItem?:any,
 }

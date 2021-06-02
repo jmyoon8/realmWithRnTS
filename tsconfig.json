@@ -1,6 +1,10 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "strict": true,
+    "lib":[
+      "ES6","ES5","DOM","DOM.Iterable"
+    ]
+  },
+  
 }

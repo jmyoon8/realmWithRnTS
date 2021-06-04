@@ -156,12 +156,12 @@ export const findNameTodoList =async (word)=>
       reject(err)
     })
   })
-  export const deleteTodos=(todoListId)=>new Promise((resolve,reject)=>{
+  export const deleteTodos=(todoListId,index)=>new Promise((resolve,reject)=>{
       Realm.open(databaseOption).then(realm=>{
         let todoList=realm.objectForPrimaryKey(TODOLIST_SCHEMA,todoListId)
         
         realm.write(()=>{
-          realm.delete(todoList.todos)
+          realm.delete(todoList.todos[index])
         })
       })
   })

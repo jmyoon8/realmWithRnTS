@@ -51,8 +51,8 @@ const FlatListItem = (props:flatListProps) => {
         setShowForAdd(true)
     }
 
-    const deleteTodosHandler=(_id:number)=>{
-        deleteTodos(_id)
+    const deleteTodosHandler=(_id:number,index:number)=>{
+        deleteTodos(_id,index)
     }
     const completeTodosHandler=(_id:number,index:number)=>{
         completeTodos(_id,index)
@@ -109,7 +109,7 @@ const FlatListItem = (props:flatListProps) => {
                                 </Text>
                             </View>
                             <View style={{flexDirection:'row',width:'100%',height:30,justifyContent:'space-around',alignItems:'center'}}>
-                                <TouchableOpacity onPress={()=>deleteTodosHandler(item._id)} style={{width:'50%',backgroundColor:'#e34066',alignSelf:'center',height:"100%",justifyContent:'center',alignItems:'center'}} > 
+                                <TouchableOpacity onPress={()=>deleteTodosHandler(item._id,index)} style={{width:'50%',backgroundColor:'#e34066',alignSelf:'center',height:"100%",justifyContent:'center',alignItems:'center'}} > 
                                     <Text style={{color:'white',fontWeight:'bold'}} >
                                         지우기
                                     </Text>

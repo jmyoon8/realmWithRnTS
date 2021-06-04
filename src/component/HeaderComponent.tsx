@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Alert, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { deleteAllTodoList } from '../realm/allSchemas'
 import { headerComponentProps } from '../realm/propertiesInterface'
+import Icon from './icon-channel.svg'
 
 
 
@@ -61,6 +62,7 @@ const HeaderComponent = (props:headerComponentProps) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.addButton} onPress={deleteAll} >
                     <Image style={styles.addButtonImage} source={require('../image/delete-icon.png')} />
+                    <Icon width={100} height={100}  />
                 </TouchableOpacity>
             </View>
         </View>
